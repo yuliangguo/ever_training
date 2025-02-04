@@ -12,7 +12,15 @@ method has higher performance and fewer blending issues than 3DGS and other subs
 especially on the challenging large-scale scenes from the Zip-NeRF dataset where it achieves SOTA
 results among real-time techniques.
 
-More details can be found in our (paper)[https://arxiv.org/abs/2410.01804] or at our (website)[https://half-potato.gitlab.io/posts/ever/]
+Datasets:
+[mipnerf360pt1](http://storage.googleapis.com/gresearch/refraw360/360_v2.zip), 
+[mipnerf360pt2](https://storage.googleapis.com/gresearch/refraw360/360_extra_scenes.zip), 
+[zipnerf-undistorted](https://storage.googleapis.com/gresearch/refraw360/zipnerf-undistorted/checkpoints.zip), 
+[zipnerf](https://storage.googleapis.com/gresearch/refraw360/zipnerf/checkpoints.zip)
+
+`zipnerf-undistorted` is used for evaluation against 3DGS.
+
+More details can be found in our [paper](https://arxiv.org/abs/2410.01804) or at our [website](https://half-potato.gitlab.io/posts/ever/)
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
@@ -27,14 +35,17 @@ More details can be found in our (paper)[https://arxiv.org/abs/2410.01804] or at
 ## Quick Install
 
 ### Dependencies
-- OptiX 7.4-7.8, which must be downloaded from NVIDIA's website. This is downloaded and placed somewhere on your computer, then use `export OptiX_INSTALL_DIR=...` to set the variable to that location.
+- OptiX 7.4, which must be downloaded from NVIDIA's [website](https://developer.nvidia.com/designworks/optix/downloads/legacy). This is downloaded and placed somewhere on your computer, then use `export OptiX_INSTALL_DIR=...` to set the variable to that location.
 - [*SlangD*](https://github.com/shader-slang/slang). We recommend using the latest version you can, as they have fixed quite a few bugs. 
 We can install the rest of the dependencies as follows:
 ```
 sudo apt install -y libglew-dev libassimp-dev libboost-all-dev libgtk-3-dev libopencv-dev libglfw3-dev libavdevice-dev libavcodec-dev libeigen3-dev libxxf86vm-dev libembree-dev
-conda env create --file environment.yml
-conda activate gaussian_splatting
+conda env create --name ever
+conda activate ever
+# adjust for cuda version
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
 ```
+<!-- conda env create --file environment.yml -->
 
 For Manjaro, Arch, or other rolling release, run the following:
 ```
@@ -47,6 +58,7 @@ git clone --recursive https://github.com/half-potato/ever_training
 cd ever_training
 bash install.bash
 ```
+If you get a bunch of compilation errors, it could be that you need to run the export line for the CXX and CC versions.
 
 We can now train using the following command:
 ```

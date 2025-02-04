@@ -1,2 +1,11 @@
-"git+https://github.com/facebookresearch/pytorch3d.git"
-
+jax
+six
+requests[socks]
+tqdm
+git+https://github.com/facebookresearch/pytorch3d.git
+kornia
+slangtorch
+slangpy
+icecream
+plyfile
+opencv-python
