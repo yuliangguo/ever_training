@@ -10,7 +10,7 @@ git apply ../ever/new_files/sibr_patch.patch
 # Build splinetracer
 mkdir ever/build
 cd ever/build
-CXX=/usr/bin/g++-11 CC=/usr/bin/gcc-11 cmake -DOptiX_INSTALL_DIR=$OptiX_INSTALL_DIR -D_GLIBCXX_USE_CXX11_ABI=1 ..
+cmake -DOptiX_INSTALL_DIR=$OptiX_INSTALL_DIR -D_GLIBCXX_USE_CXX11_ABI=1 ..
 make -j8
 cd ../..
 

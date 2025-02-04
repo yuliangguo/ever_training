@@ -35,6 +35,12 @@ sudo apt install -y libglew-dev libassimp-dev libboost-all-dev libgtk-3-dev libo
 conda env create --file environment.yml
 conda activate gaussian_splatting
 ```
+
+For Manjaro, Arch, or other rolling release, run the following:
+```
+export CXX=/usr/bin/g++-11 CC=/usr/bin/gcc-11 
+```
+
 Now, download the files and run `bash install.bash`
 ```
 git clone --recursive https://github.com/half-potato/ever_training
@@ -47,13 +53,6 @@ We can now train using the following command:
 python train.py -s <path to COLMAP or NeRF Synthetic dataset>
 ```
 
-To get the 
-```
-cd SIBR_viewers
-cmake -Bbuild . -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j24 --target install
-cd ../..
-```
 Tested on Manjaro and Ubuntu Linux 22.04.
 
 ### Evaluation
