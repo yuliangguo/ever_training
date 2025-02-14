@@ -15,8 +15,7 @@ results among real-time techniques.
 Datasets:
 [mipnerf360pt1](http://storage.googleapis.com/gresearch/refraw360/360_v2.zip), 
 [mipnerf360pt2](https://storage.googleapis.com/gresearch/refraw360/360_extra_scenes.zip), 
-[zipnerf-undistorted](https://storage.googleapis.com/gresearch/refraw360/zipnerf-undistorted/checkpoints.zip), 
-[zipnerf](https://storage.googleapis.com/gresearch/refraw360/zipnerf/checkpoints.zip)
+[zipnerf](https://smerf-3d.github.io/)
 
 `zipnerf-undistorted` is used for evaluation against 3DGS.
 
