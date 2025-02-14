@@ -40,8 +40,9 @@ More details can be found in our [paper](https://arxiv.org/abs/2410.01804) or at
 We can install the rest of the dependencies as follows:
 ```
 sudo apt install -y libglew-dev libassimp-dev libboost-all-dev libgtk-3-dev libopencv-dev libglfw3-dev libavdevice-dev libavcodec-dev libeigen3-dev libxxf86vm-dev libembree-dev
-conda env create --name ever
+conda env create --name ever python==3.10
 conda activate ever
+conda install pip
 # adjust for cuda version
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
 ```

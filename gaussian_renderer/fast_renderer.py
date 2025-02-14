@@ -29,8 +29,8 @@ from gaussian_renderer import GaussianModel
 import time
 
 from utils.sh_utils import eval_sh, RGB2SH, SH2RGB
-from splinetracer.splinetracers.fast_ellipsoid_splinetracer import sp
-from splinetracer.eval_sh import eval_sh as eval_sh2
+from ever.splinetracers.fast_ellipsoid_splinetracer import sp
+from ever.eval_sh import eval_sh as eval_sh2
 from utils.graphics_utils import in_screen_from_ndc, project_points, visible_depth_from_camspace, fov2focal
 from scene.dataset_readers import ProjectionType
 

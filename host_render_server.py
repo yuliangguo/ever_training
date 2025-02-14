@@ -34,8 +34,9 @@ import traceback
 from utils.system_utils import searchForMaxIteration
 import time
 from gaussian_renderer.fast_renderer import FastRenderer
+from gaussian_renderer import render, network_gui
 
-renderFunc = splinerender
+# renderFunc = splinerender
 # renderFunc = render
 from scene.dataset_readers import ProjectionType
 
@@ -107,19 +108,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     iter_end = torch.cuda.Event(enable_timing = True)
 
 
-    if dataset.enable_mip_splatting:
-        viewpoint_stack = scene.getTrainCameras().copy()
-        ema_loss_for_log = 0.0
-        progress_bar = tqdm(range(first_iter, opt.iterations), desc="Training progress")
-        first_iter += 1
-        camera_inds = {view.uid: i for i, view in enumerate(viewpoint_stack)}
-        gaussians.initialize_glo(len(viewpoint_stack), dataset.glo_latent_dim)
-        train_cameras = scene.getTrainCameras()
-        gaussians.enable_mip_splatting(dataset.low_pass_2d_kernel_size, dataset.low_pass_3d_kernel_size)
-        gaussians.update_low_pass_filter(train_cameras)
-
     gaussians.training_setup(opt)
-    dssim_growth = (opt.max_lambda_dssim - opt.lambda_dssim) / opt.max_dssim_iteration
     torch.cuda.empty_cache()
     st = time.time()
 
@@ -159,9 +148,9 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
                     renderer.set_camera(custom_cam)
 
                     st = time.time()
-                    # net_image = renderer.render(custom_cam, pipe, background)
+                    net_image = renderer.render(custom_cam, pipe, background)
 
-                    net_image = renderFunc(custom_cam, gaussians, pipe, background, scaling_modifer, random=False, tmin=0)["render"]
+                    # net_image = renderFunc(custom_cam, gaussians, pipe, background, scaling_modifer, random=False, tmin=0)["render"]
                     print(1/(time.time()-st))
                     net_image = (torch.clamp(net_image, min=0, max=1.0) * 255).byte().permute(1, 2, 0).contiguous().cpu().numpy()
                     net_image = cv2.resize(net_image, (image_width, image_height))
