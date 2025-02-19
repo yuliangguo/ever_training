@@ -74,6 +74,10 @@ python train.py -s <path to COLMAP or NeRF Synthetic dataset> --eval # Train wit
 python render.py -m <path to trained model> # Generate renderings
 python metrics.py -m <path to trained model> # Compute error metrics on renderings
 ```
+To run training on a dataset with images with varying exposure levels, we must first extract the metadata from the images. This can be done with this command:
+```
+python extract_metadata.py $DATASET/images $DATASET/metadata.json
+```
 
 If you want to evaluate our [pre-trained models](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/pretrained/models.zip), you will have to download the corresponding source data sets and indicate their location to ```render.py``` with an additional ```--source_path/-s``` flag. Note: The pre-trained models were created with the release codebase. This code base has been cleaned up and includes bugfixes, hence the metrics you get from evaluating them will differ from those in the paper.
 ```shell
