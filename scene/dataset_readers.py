@@ -24,6 +24,7 @@ from utils.sh_utils import SH2RGB
 from scene.gaussian_model import BasicPointCloud
 import enum
 import json
+import cv2
 
 class ProjectionType(enum.Enum):
   """Camera projection type (perspective pinhole, fisheye, or 360 pano)."""
@@ -145,9 +146,9 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
         image_path = os.path.join(images_folder, os.path.basename(extr.name))
         image_name = os.path.basename(image_path).split(".")[0]
         image_path = image_path.replace(" ", "_")
-        temp = Image.open(image_path)
-        image = temp.copy()
-        temp.close()
+        # temp = Image.open(image_path)
+        # image = temp.copy()
+        # temp.close()
         if metadata is not None:
             data = metadata[os.path.basename(image_path)]
             exposure = convert_to_float(data['exposure'])
@@ -157,7 +158,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
             exposure = 1
             iso = 100
             aperature = 1
-        # image = imageio.imread(image_path)
+        image = cv2.imread(image_path)
 
         cam_info = CameraInfo(uid=uid, R=R, T=T, FovY=FovY, FovX=FovX, image=image,
                               image_path=image_path, image_name=image_name, width=width,

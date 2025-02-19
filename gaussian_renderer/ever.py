@@ -16,6 +16,7 @@
 import torch
 import math
 
+from utils import camera_utils_zipnerf
 from scene.gaussian_model import GaussianModel
 from ever.splinetracers.fast_ellipsoid_splinetracer import trace_rays
 # from splinetracer.splinetracers.ellipsoid_splinetracer import trace_rays
