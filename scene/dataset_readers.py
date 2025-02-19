@@ -159,6 +159,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
             iso = 100
             aperature = 1
         image = cv2.imread(image_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         cam_info = CameraInfo(uid=uid, R=R, T=T, FovY=FovY, FovX=FovX, image=image,
                               image_path=image_path, image_name=image_name, width=width,
