@@ -24,7 +24,6 @@ from utils.sh_utils import SH2RGB
 from scene.gaussian_model import BasicPointCloud
 import enum
 import json
-import cv2
 
 class ProjectionType(enum.Enum):
   """Camera projection type (perspective pinhole, fisheye, or 360 pano)."""
@@ -158,8 +157,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
             exposure = 1
             iso = 100
             aperature = 1
-        image = cv2.imread(image_path)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = None
 
         cam_info = CameraInfo(uid=uid, R=R, T=T, FovY=FovY, FovX=FovX, image=image,
                               image_path=image_path, image_name=image_name, width=width,
