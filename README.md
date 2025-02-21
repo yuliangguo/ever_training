@@ -84,13 +84,12 @@ If you want to evaluate our [pre-trained models](https://repo-sam.inria.fr/fungr
 python render.py -m <path to pre-trained model> -s <path to COLMAP dataset>
 python metrics.py -m <path to pre-trained model>
 ```
+These have the same arguments as 3DGS.
 
 To run the full benchmark, use the following command:
 ```shell
 python full_eval.py -m360 $NERF_DATSASETS/360 -zn $NERF_DATSASETS/zipnerf_ud -db $NERF_DATSASETS/db -tnt $NERF_DATSASETS/tandt --output_path eval
 ```
-
-These have the same arguments as 3DGS.
 
 ## Interactive Viewers
 For all viewing purposes, we rely on the [SIBR](https://sibr.gitlabpages.inria.fr/) remote viewer. The training script will host a server to view training, and we provide the `host_render_server.py` file for viewing trained models.
