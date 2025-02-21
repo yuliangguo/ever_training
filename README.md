@@ -85,6 +85,11 @@ python render.py -m <path to pre-trained model> -s <path to COLMAP dataset>
 python metrics.py -m <path to pre-trained model>
 ```
 
+To run the full benchmark, use the following command:
+```shell
+python full_eval.py -m360 $NERF_DATSASETS/360 -zn $NERF_DATSASETS/zipnerf_ud -db $NERF_DATSASETS/db -tnt $NERF_DATSASETS/tandt --output_path eval
+```
+
 These have the same arguments as 3DGS.
 
 ## Interactive Viewers
