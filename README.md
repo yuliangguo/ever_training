@@ -38,7 +38,7 @@ More details can be found in our [paper](https://arxiv.org/abs/2410.01804) or at
 - [*SlangD*](https://github.com/shader-slang/slang). We recommend using the latest version you can, as they have fixed quite a few bugs. 
 We can install the rest of the dependencies as follows:
 ```
-sudo apt install -y libglew-dev libassimp-dev libboost-all-dev libgtk-3-dev libopencv-dev libglfw3-dev libavdevice-dev libavcodec-dev libeigen3-dev libxxf86vm-dev libembree-dev
+sudo apt install -y libglew-dev libassimp-dev libboost-all-dev libgtk-3-dev libopencv-dev libglfw3-dev libavdevice-dev libavcodec-dev libeigen3-dev libxxf86vm-dev libembree-dev libabsl-dev libcgal-dev libglm-dev
 conda env create --name ever python==3.10
 conda activate ever
 conda install pip
@@ -50,6 +50,12 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 For Manjaro, Arch, or other rolling release, run the following:
 ```
 export CXX=/usr/bin/g++-11 CC=/usr/bin/gcc-11 
+```
+
+If you have multiple cuda versions, make sure to specify which one to use using the following command:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-12.6/lib64
+export PATH=$PATH:/usr/local/cuda-12.6/bin
 ```
 
 Now, download the files and run `bash install.bash`
