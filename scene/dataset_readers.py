@@ -25,6 +25,9 @@ from scene.gaussian_model import BasicPointCloud
 import enum
 import json
 
+# Temp code for cross camera evaluation on zipnerf dataset (By Yuliang Guo)
+CROSS_CAMERA_EVAL = False
+
 class ProjectionType(enum.Enum):
   """Camera projection type (perspective pinhole, fisheye, or 360 pano)."""
 
@@ -143,6 +146,15 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
             assert False, "Colmap camera model not handled: only undistorted datasets (PINHOLE or SIMPLE_PINHOLE cameras) supported!"
 
         image_path = os.path.join(images_folder, os.path.basename(extr.name))
+        if CROSS_CAMERA_EVAL:
+            if 'indoor_' not in os.path.basename(extr.name):
+                image_path = image_path.replace(os.path.basename(extr.name), 'indoor_' + os.path.basename(extr.name))
+            else:
+                image_path = image_path.replace('indoor_', '')
+                
+            if not os.path.exists(image_path):
+                continue
+            
         image_name = os.path.basename(image_path).split(".")[0]
         image_path = image_path.replace(" ", "_")
         # temp = Image.open(image_path)
@@ -197,6 +209,11 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
     try:
         cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.bin")
         cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.bin")
+        if CROSS_CAMERA_EVAL:
+            if 'undistorted' in cameras_extrinsic_file:
+                cameras_extrinsic_file = cameras_extrinsic_file.replace('undistorted', 'fisheye')
+            elif 'fisheye' in cameras_intrinsic_file:
+                cameras_intrinsic_file = cameras_intrinsic_file.replace('fisheye', 'undistorted')
         cam_extrinsics = read_extrinsics_binary(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_binary(cameras_intrinsic_file)
     except:

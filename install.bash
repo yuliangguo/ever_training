@@ -9,6 +9,11 @@ cp ever/new_files/utils/* utils/
 
 git apply ../ever/new_files/sibr_patch.patch
 
+export OptiX_INSTALL_DIR=/home/yuliang/Tools/NVIDIA-OptiX-SDK-7.4.0-linux64-x86_64
+export PATH=$PATH:/home/yuliang/Tools/slang-2025.5-linux-x86_64/bin
+export CXX=/usr/bin/g++-11
+export CC=/usr/bin/gcc-11
+
 # Build splinetracer
 mkdir ever/build
 cd ever/build
@@ -19,8 +24,8 @@ cd ../..
 
 pip install -e submodules/simple-knn
 
-# SIBR Viewer
-cd SIBR_viewers
-cmake -Bbuild . -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j24 --target install
-cd ../..
+# # SIBR Viewer
+# cd SIBR_viewers
+# cmake -Bbuild . -DCMAKE_BUILD_TYPE=Release
+# cmake --build build -j24 --target install
+# cd ../..
