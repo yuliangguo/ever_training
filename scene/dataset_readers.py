@@ -212,8 +212,8 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
         if CROSS_CAMERA_EVAL:
             if 'undistorted' in cameras_extrinsic_file:
                 cameras_extrinsic_file = cameras_extrinsic_file.replace('undistorted', 'fisheye')
-            elif 'fisheye' in cameras_intrinsic_file:
-                cameras_intrinsic_file = cameras_intrinsic_file.replace('fisheye', 'undistorted')
+            elif 'fisheye' in cameras_extrinsic_file:
+                cameras_extrinsic_file = cameras_extrinsic_file.replace('fisheye', 'undistorted')
         cam_extrinsics = read_extrinsics_binary(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_binary(cameras_intrinsic_file)
     except:
