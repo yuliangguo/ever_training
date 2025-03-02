@@ -71,7 +71,9 @@ def evaluate(model_paths):
                 for idx in tqdm(range(len(renders)), desc="Metric evaluation progress"):
                     ssims.append(ssim(renders[idx], gts[idx]))
                     psnrs.append(psnr(renders[idx], gts[idx]))
-                    lpipss.append(lpips(2*renders[idx]-1, 2*gts[idx]-1, net_type='vgg'))
+                    # lpipss.append(lpips(2*renders[idx]-1, 2*gts[idx]-1, net_type='vgg')) # EVER version
+                    lpipss.append(lpips(renders[idx], gts[idx], net_type='vgg')) # original 3DGS version
+
                     # print(image_names[idx], psnrs[-1], ssims[-1], lpipss[-1])
 
                 print("  SSIM : {:>12.7f}".format(torch.tensor(ssims).mean(), ".5"))
