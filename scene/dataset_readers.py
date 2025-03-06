@@ -25,8 +25,6 @@ from scene.gaussian_model import BasicPointCloud
 import enum
 import json
 
-# Temp code for cross camera evaluation on zipnerf dataset (By Yuliang Guo)
-CROSS_CAMERA_EVAL = False
 
 class ProjectionType(enum.Enum):
   """Camera projection type (perspective pinhole, fisheye, or 360 pano)."""
@@ -95,7 +93,7 @@ def convert_to_float(frac_str):
         frac = float(num) / float(denom)
         return whole - frac if whole < 0 else whole + frac
 
-def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_path):
+def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_path, cross_camera=False):
     if os.path.isfile(metadata_path):
         with open(metadata_path, "r") as f:
             metadata = json.load(f)
@@ -146,7 +144,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
             assert False, "Colmap camera model not handled: only undistorted datasets (PINHOLE or SIMPLE_PINHOLE cameras) supported!"
 
         image_path = os.path.join(images_folder, os.path.basename(extr.name))
-        if CROSS_CAMERA_EVAL:
+        if cross_camera:
             if 'indoor_' not in os.path.basename(extr.name):
                 image_path = image_path.replace(os.path.basename(extr.name), 'indoor_' + os.path.basename(extr.name))
             else:
@@ -205,11 +203,11 @@ def storePly(path, xyz, rgb):
     ply_data = PlyData([vertex_element])
     ply_data.write(path)
 
-def readColmapSceneInfo(path, images, eval, llffhold=8):
+def readColmapSceneInfo(path, images, eval, llffhold=8, cross_camera=False):
     try:
         cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.bin")
         cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.bin")
-        if CROSS_CAMERA_EVAL:
+        if cross_camera:
             if 'undistorted' in cameras_extrinsic_file:
                 cameras_extrinsic_file = cameras_extrinsic_file.replace('undistorted', 'fisheye')
             elif 'fisheye' in cameras_extrinsic_file:
@@ -226,7 +224,8 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
     cam_infos_unsorted = readColmapCameras(
         cam_extrinsics=cam_extrinsics, cam_intrinsics=cam_intrinsics,
         images_folder=os.path.join(path, reading_dir),
-        metadata_path=os.path.join(path, "metadata.json"))
+        metadata_path=os.path.join(path, "metadata.json"),
+        cross_camera=cross_camera)
     cam_infos = sorted(cam_infos_unsorted.copy(), key = lambda x : x.image_name)
 
     if eval:

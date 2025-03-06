@@ -33,7 +33,7 @@ def readImages(renders_dir, gt_dir):
         image_names.append(fname)
     return renders, gts, image_names
 
-def evaluate(model_paths):
+def evaluate(model_paths, cross_camera=False):
 
     full_dict = {}
     per_view_dict = {}
@@ -60,8 +60,12 @@ def evaluate(model_paths):
                 per_view_dict_polytopeonly[scene_dir][method] = {}
 
                 method_dir = test_dir / method
-                gt_dir = method_dir/ "gt"
-                renders_dir = method_dir / "renders"
+                if cross_camera:
+                    renders_dir = method_dir / "renders_cross_camera"
+                    gt_dir = method_dir/ "gt_cross_camera"
+                else:
+                    gt_dir = method_dir/ "gt"
+                    renders_dir = method_dir / "renders"
                 renders, gts, image_names = readImages(renders_dir, gt_dir)
 
                 ssims = []
@@ -88,10 +92,16 @@ def evaluate(model_paths):
                                                             "PSNR": {name: psnr for psnr, name in zip(torch.tensor(psnrs).tolist(), image_names)},
                                                             "LPIPS": {name: lp for lp, name in zip(torch.tensor(lpipss).tolist(), image_names)}})
 
-            with open(scene_dir + "/results.json", 'w') as fp:
-                json.dump(full_dict[scene_dir], fp, indent=True)
-            with open(scene_dir + "/per_view.json", 'w') as fp:
-                json.dump(per_view_dict[scene_dir], fp, indent=True)
+            if cross_camera:
+                with open(scene_dir + "/results_cross_camera.json", 'w') as fp:
+                    json.dump(full_dict[scene_dir], fp, indent=True)
+                with open(scene_dir + "/per_view_cross_camera.json", 'w') as fp:
+                    json.dump(per_view_dict[scene_dir], fp, indent=True)
+            else:
+                with open(scene_dir + "/results.json", 'w') as fp:
+                    json.dump(full_dict[scene_dir], fp, indent=True)
+                with open(scene_dir + "/per_view.json", 'w') as fp:
+                    json.dump(per_view_dict[scene_dir], fp, indent=True)
         except Exception as e:
             print(e)
             print("Unable to compute metrics for model", scene_dir)
@@ -103,5 +113,6 @@ if __name__ == "__main__":
     # Set up command line argument parser
     parser = ArgumentParser(description="Training script parameters")
     parser.add_argument('--model_paths', '-m', required=True, nargs="+", type=str, default=[])
+    parser.add_argument('--cross_camera', '-c', action='store_true')
     args = parser.parse_args()
-    evaluate(args.model_paths)
+    evaluate(args.model_paths, args.cross_camera)
