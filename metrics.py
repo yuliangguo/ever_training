@@ -60,12 +60,11 @@ def evaluate(model_paths, cross_camera=False):
                 per_view_dict_polytopeonly[scene_dir][method] = {}
 
                 method_dir = test_dir / method
+                gt_dir = method_dir/ "gt"
+                renders_dir = method_dir / "renders"
                 if cross_camera:
-                    renders_dir = method_dir / "renders_cross_camera"
-                    gt_dir = method_dir/ "gt_cross_camera"
-                else:
-                    gt_dir = method_dir/ "gt"
-                    renders_dir = method_dir / "renders"
+                    gt_dir = gt_dir.with_name(gt_dir.name + "_cross_camera")
+                    renders_dir = renders_dir.with_name(renders_dir.name + "_cross_camera")         
                 renders, gts, image_names = readImages(renders_dir, gt_dir)
 
                 ssims = []
