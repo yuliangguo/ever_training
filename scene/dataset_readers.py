@@ -150,8 +150,8 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder, metadata_pa
             else:
                 image_path = image_path.replace('indoor_', '')
                 
-            if not os.path.exists(image_path):
-                continue
+        if not os.path.exists(image_path):
+            continue
             
         image_name = os.path.basename(image_path).split(".")[0]
         image_path = image_path.replace(" ", "_")
@@ -203,10 +203,10 @@ def storePly(path, xyz, rgb):
     ply_data = PlyData([vertex_element])
     ply_data.write(path)
 
-def readColmapSceneInfo(path, images, eval, llffhold=8, cross_camera=False):
+def readColmapSceneInfo(path, images, eval, llffhold=8, colmap_path="sparse/0", cross_camera=False):
     try:
-        cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.bin")
-        cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.bin")
+        cameras_extrinsic_file = os.path.join(path, colmap_path, "images.bin")
+        cameras_intrinsic_file = os.path.join(path, colmap_path, "cameras.bin")
         if cross_camera:
             if 'undistorted' in cameras_extrinsic_file:
                 cameras_extrinsic_file = cameras_extrinsic_file.replace('undistorted', 'fisheye')
@@ -215,8 +215,8 @@ def readColmapSceneInfo(path, images, eval, llffhold=8, cross_camera=False):
         cam_extrinsics = read_extrinsics_binary(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_binary(cameras_intrinsic_file)
     except:
-        cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.txt")
-        cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.txt")
+        cameras_extrinsic_file = os.path.join(path, colmap_path, "images.txt")
+        cameras_intrinsic_file = os.path.join(path, colmap_path, "cameras.txt")
         cam_extrinsics = read_extrinsics_text(cameras_extrinsic_file)
         cam_intrinsics = read_intrinsics_text(cameras_intrinsic_file)
 
@@ -237,9 +237,9 @@ def readColmapSceneInfo(path, images, eval, llffhold=8, cross_camera=False):
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
-    ply_path = os.path.join(path, "sparse/0/points3D.ply")
-    bin_path = os.path.join(path, "sparse/0/points3D.bin")
-    txt_path = os.path.join(path, "sparse/0/points3D.txt")
+    ply_path = os.path.join(path, colmap_path, "points3D.ply")
+    bin_path = os.path.join(path, colmap_path, "points3D.bin")
+    txt_path = os.path.join(path, colmap_path, "points3D.txt")
     if not os.path.exists(ply_path):
         print("Converting point3d.bin to .ply, will happen only the first time you open the scene.")
         try:
