@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Train a scene (Scannet++)
-DATASET_PATH="/mnt/data_ssd_4tb/Datasets/scannetpp_tiny/data/2a1a3afad9/dslr/"
-OUTPUT_PATH="output/scannetpp/dslr/2a1a3afad9"
+DATASET_PATH="/mnt/data_ssd_4tb/Datasets/scannetpp_tiny/data/1d003b07bd/dslr/"
+OUTPUT_PATH="output/scannetpp/dslr/1d003b07bd"
 
 python train.py \
     -s $DATASET_PATH \
